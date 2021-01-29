@@ -1,2 +1,2 @@
-# anaplan
+# Anaplan
 Anaplan Connectivity
