@@ -19,10 +19,8 @@
  **Function Name:** The name of the predefined function to be run.
 
  **Service Location:** The root service location of the Anaplan API.
- Default: https://google.anaplan.com
  
  **Auth Service Location:** The service location for the authentication.
- Default: https://google.anaplan.com
 
  **User Name:** The service account used for the connection.
 

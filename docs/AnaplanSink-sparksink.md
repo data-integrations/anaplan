@@ -15,10 +15,8 @@
  **Server File Name:** The name of the predefined placeholder file name in the model for this data import.
 
  **Service Location:** The root service location of the Anaplan API.
- Default: https://google.anaplan.com
  
  **Auth Service Location:** The service location for the authentication.
- Default: https://google.anaplan.com
 
  **User Name:** The service account used for the connection.
 

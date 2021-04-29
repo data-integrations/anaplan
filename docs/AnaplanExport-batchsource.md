@@ -9,17 +9,8 @@ This plugin is built upon the existing [GCS source plugin](https://github.com/da
 The data exported from Anaplan model will be firstly materialized in the given GCS bucket, 
 and the inbound data stream to the CDF pipeline will be sourced from the file.
 
-GCP Credentials
------------
-If the plugin is run on a Google Cloud Dataproc cluster, the service account key does not need to be
-provided and can be set to 'auto-detect'.
-The GCP credentials will be automatically read from the cluster environment.
-
-If the plugin is not run on a Dataproc cluster, the path to a service account key must be provided.
-The service account key can be found on the Dashboard in the Cloud Platform Console.
-Make sure the account key has permission to access BigQuery and Google Cloud Storage.
-The service account key file needs to be available on every node in your cluster and
-must be readable by all users running the job.
+There are two connections will be made using the provided property values. The `Anaplan Properties` are used for downloading the target data file from Anaplan server. 
+The `GCS Properties` are used for the connection with GCS, which archives the downloaded data file in the given GCS bucket for sourcing the data into the CDF pipeline.
 
 Anaplan Properties
 ----------
@@ -30,16 +21,26 @@ Anaplan Properties
 **Server File Name:** The name of the predefined placeholder file name in the model for this data import.
 
 **Service Location:** The root service location of the Anaplan API.
-Default: https://google.anaplan.com
  
 **Auth Service Location:** The service location for the authentication.
-Default: https://google.anaplan.com
 
 **User Name:** The service account used for the connection.
 
 **Password:** The password for authentication. It's suggested to use CDF build-in Cloud KMS integration 
 to manage the password and utilize macro in this filed. 
 Reference: [Provide secure information to pipelines](https://datafusion.atlassian.net/wiki/spaces/KB/pages/32276556/Provide+secure+information+to+pipelines)
+
+GCP Credentials
+-----------
+If the plugin is run on a Google Cloud Dataproc cluster, the service account key does not need to be
+provided and can be set to 'auto-detect'.
+The GCP credentials will be automatically read from the cluster environment (the GCP project where this CDF instance is hosted).
+
+If the plugin is not run on a Dataproc cluster, the path to a service account key must be provided.
+The service account key can be found on the Dashboard in the Cloud Platform Console.
+Make sure the account key has permission to access BigQuery and Google Cloud Storage.
+The service account key file needs to be available on every node in your cluster and
+must be readable by all users running the job.
 
 GCS & General Properties
 ----------
