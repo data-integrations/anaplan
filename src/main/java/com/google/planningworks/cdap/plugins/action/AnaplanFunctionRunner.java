@@ -31,14 +31,14 @@ public class AnaplanFunctionRunner extends Action {
    * throws an exception, the pipeline will not be deployed and the user will be shown the error
    * message.
    *
-   * @param pipelineConfigure the collection of the pipeline configuration and context
+   * @param pipelineConfigurer the collection of the pipeline configuration and context
    * @throws IllegalArgumentException when the configuration validate fails
    */
   @Override
-  public void configurePipeline(PipelineConfigurer pipelineConfigure)
+  public void configurePipeline(PipelineConfigurer pipelineConfigurer)
       throws IllegalArgumentException {
-    super.configurePipeline(pipelineConfigure);
-    FailureCollector collector = pipelineConfigure.getStageConfigurer().getFailureCollector();
+    super.configurePipeline(pipelineConfigurer);
+    FailureCollector collector = pipelineConfigurer.getStageConfigurer().getFailureCollector();
     config.validate(collector);
     collector.getOrThrowException();
   }

@@ -94,12 +94,12 @@ public class AnaplanSinkTest {
     FieldSetter.setField(
         config,
         AnaplanSinkConfig.class.getDeclaredField(NAME_SERVICE_LOCATION),
-        "https://google.anaplan.com");
+        "https://mock.anaplan.com");
 
     FieldSetter.setField(
         config,
         AnaplanSinkConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
-        "https://google.anaplan.com");
+        "https://mock.anaplan.com");
 
     FieldSetter.setField(
         config, AnaplanSinkConfig.class.getDeclaredField(NAME_USERNAME), "username@gmail.com");

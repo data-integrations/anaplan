@@ -46,9 +46,9 @@ public class AnaplanService implements Serializable {
   private static final Logger LOG = LoggerFactory.getLogger(AnaplanService.class);
 
   /**
-   * Sets metadata of Anaplan API root URL and authentication service URL
+   * Sets metadata details for the connection with Anaplan server
    *
-   * @param config the config instance carries metadata the task
+   * @param config the config instance carries metadata for the connection with Anaplan server
    */
   public static void setTaskMetadata(AnaplanConfig config) {
     setAPIRoot(config.getServiceLocation(), config.getAuthServiceLocation());
@@ -64,9 +64,9 @@ public class AnaplanService implements Serializable {
     }
   }
 
-  private static void setCredential(String user, String pass) {
-    Program.setUsername(user);
-    Program.setPassphrase(pass);
+  private static void setCredential(String username, String password) {
+    Program.setUsername(username);
+    Program.setPassphrase(password);
   }
 
   /** Closes the connection with Anaplan server */

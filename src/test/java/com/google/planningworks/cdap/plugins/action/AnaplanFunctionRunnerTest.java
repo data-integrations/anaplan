@@ -111,12 +111,12 @@ public class AnaplanFunctionRunnerTest {
     FieldSetter.setField(
         config,
         AnaplanFunctionRunnerConfig.class.getDeclaredField(NAME_SERVICE_LOCATION),
-        "https://google.anaplan.com");
+        "https://mock.anaplan.com");
 
     FieldSetter.setField(
         config,
         AnaplanFunctionRunnerConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
-        "https://google.anaplan.com");
+        "https://mock.anaplan.com");
 
     FieldSetter.setField(
         config,

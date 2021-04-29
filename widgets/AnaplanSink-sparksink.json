@@ -41,8 +41,7 @@
           "label": "Service Location",
           "name": "serviceLocation",
           "widget-attributes": {
-            "width": "large",
-            "default": "https://google.anaplan.com"
+            "width": "large"
           }
         },
         {
@@ -50,8 +49,7 @@
           "label": "Auth Service Location",
           "name": "authServiceLocation",
           "widget-attributes": {
-            "width": "large",
-            "default": "https://google.anaplan.com"
+            "width": "large"
           }
         },
         {

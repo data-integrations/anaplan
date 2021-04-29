@@ -60,7 +60,7 @@ public class AnaplanServiceTest {
 
   @Test
   public void validateServiceLocationPass() {
-    AnaplanService.validateServiceLocation("https://google.anaplan.com");
+    AnaplanService.validateServiceLocation("https://mock.anaplan.com");
   }
 
   @Test
@@ -74,7 +74,7 @@ public class AnaplanServiceTest {
 
   @Test
   public void validateAuthServiceLocationPass() {
-    AnaplanService.validateAuthServiceLocation("https://google.anaplan.com");
+    AnaplanService.validateAuthServiceLocation("https://mock.anaplan.com");
   }
 
   @Test

@@ -124,12 +124,12 @@ public class AnaplanExportTest {
     FieldSetter.setField(
         config,
         AnaplanExportConfig.class.getDeclaredField(NAME_SERVICE_LOCATION),
-        "https://google.anaplan.com");
+        "https://mock.anaplan.com");
 
     FieldSetter.setField(
         config,
         AnaplanExportConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
-        "https://google.anaplan.com");
+        "https://mock.anaplan.com");
 
     FieldSetter.setField(
         config, AnaplanExportConfig.class.getDeclaredField(NAME_USERNAME), "username@gmail.com");
