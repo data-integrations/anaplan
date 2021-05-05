@@ -38,15 +38,37 @@ public class AnaplanService {
     ACTION
   }
 
-  /** Interface for the CDF plugin that use Anaplan service. */
-  public interface AnaplanConfig {
-    URI getServiceLocation() throws URISyntaxException;
+  /** Wrapper for the metadata for the connection with Anaplan server. */
+  public static class AnaplanConfig {
+    private URI serviceLocation;
+    private URI authServiceLocation;
+    private String username;
+    private String password;
 
-    URI getAuthServiceLocation() throws URISyntaxException;
+    public AnaplanConfig(
+      String username, String password, String serviceLocation, String authServiceLocation)
+      throws URISyntaxException {
+      this.username = username;
+      this.password = password;
+      this.serviceLocation = new URI(serviceLocation);
+      this.authServiceLocation = new URI(authServiceLocation);
+    }
 
-    String getUsername();
+    public URI getAuthServiceLocation() {
+      return authServiceLocation;
+    }
 
-    String getPassword();
+    public String getUsername() {
+      return username;
+    }
+
+    public String getPassword() {
+      return password;
+    }
+
+    public URI getServiceLocation() {
+      return serviceLocation;
+    }
   }
 
   public static final String NAME_SERVICE_LOCATION = "serviceLocation";
@@ -71,7 +93,7 @@ public class AnaplanService {
 
   private static void setAPIRoot(URI serviceLocation, URI authServiceLocation) {
     Program.setServiceLocation(serviceLocation);
-    Program.setAuthServiceLocation(serviceLocation);
+    Program.setAuthServiceLocation(authServiceLocation);
   }
 
   private static void setCredential(String username, String password) {
