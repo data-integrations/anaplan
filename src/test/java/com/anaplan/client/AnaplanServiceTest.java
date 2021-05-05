@@ -1,3 +1,18 @@
+/*
+ * Copyright © 2021 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package com.anaplan.client;
 
 import static org.junit.Assert.assertThrows;
@@ -18,7 +33,7 @@ public class AnaplanServiceTest {
   @Test
   public void validateUsernameThrowsIllegalArgumentException() {
     IllegalArgumentException thrown =
-        assertThrows(IllegalArgumentException.class, () -> AnaplanService.validateUsername(""));
+      assertThrows(IllegalArgumentException.class, () -> AnaplanService.validateUsername(""));
     assertTrue(thrown.getMessage().contains("Anaplan username is required."));
   }
 
@@ -30,7 +45,7 @@ public class AnaplanServiceTest {
   @Test
   public void validatePasswordThrowsIllegalArgumentException() {
     IllegalArgumentException thrown =
-        assertThrows(IllegalArgumentException.class, () -> AnaplanService.validatePassword(""));
+      assertThrows(IllegalArgumentException.class, () -> AnaplanService.validatePassword(""));
     assertTrue(thrown.getMessage().contains("Anaplan password is required."));
   }
 
@@ -42,7 +57,7 @@ public class AnaplanServiceTest {
   @Test
   public void validateWorkspaceIdThrowsIllegalArgumentException() {
     IllegalArgumentException thrown =
-        assertThrows(IllegalArgumentException.class, () -> AnaplanService.validateWorkspaceId(""));
+      assertThrows(IllegalArgumentException.class, () -> AnaplanService.validateWorkspaceId(""));
     assertTrue(thrown.getMessage().contains("Anaplan workspaceId is required."));
   }
 
@@ -54,7 +69,7 @@ public class AnaplanServiceTest {
   @Test
   public void validateModelIdThrowsIllegalArgumentException() {
     IllegalArgumentException thrown =
-        assertThrows(IllegalArgumentException.class, () -> AnaplanService.validateModelId(""));
+      assertThrows(IllegalArgumentException.class, () -> AnaplanService.validateModelId(""));
     assertTrue(thrown.getMessage().contains("Anaplan modelId is required."));
   }
 
@@ -66,9 +81,9 @@ public class AnaplanServiceTest {
   @Test
   public void validateServiceLocationThrowsIllegalArgumentException() {
     IllegalArgumentException thrown =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> AnaplanService.validateServiceLocation("invalid URI"));
+      assertThrows(
+        IllegalArgumentException.class,
+        () -> AnaplanService.validateServiceLocation("invalid URI"));
     assertTrue(thrown.getMessage().contains("Service location URI is invalid"));
   }
 
@@ -80,9 +95,9 @@ public class AnaplanServiceTest {
   @Test
   public void validateAuthServiceLocationThrowsIllegalArgumentException() {
     IllegalArgumentException thrown =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> AnaplanService.validateAuthServiceLocation("invalid URI"));
+      assertThrows(
+        IllegalArgumentException.class,
+        () -> AnaplanService.validateAuthServiceLocation("invalid URI"));
     assertTrue(thrown.getMessage().contains("Authentication service URI is invalid"));
   }
 }
