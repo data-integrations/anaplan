@@ -40,18 +40,17 @@ public class AnaplanService {
 
   /** Wrapper for the metadata for the connection with Anaplan server. */
   public static class AnaplanConfig {
-    private URI serviceLocation;
-    private URI authServiceLocation;
-    private String username;
-    private String password;
+    private final URI serviceLocation;
+    private final URI authServiceLocation;
+    private final String username;
+    private final String password;
 
     public AnaplanConfig(
-      String username, String password, String serviceLocation, String authServiceLocation)
-      throws URISyntaxException {
+      String username, String password, URI serviceLocation, URI authServiceLocation) {
       this.username = username;
       this.password = password;
-      this.serviceLocation = new URI(serviceLocation);
-      this.authServiceLocation = new URI(authServiceLocation);
+      this.serviceLocation = serviceLocation;
+      this.authServiceLocation = authServiceLocation;
     }
 
     public URI getAuthServiceLocation() {
