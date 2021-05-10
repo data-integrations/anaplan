@@ -51,7 +51,6 @@ public class AnaplanFunctionRunner extends Action {
    * message.
    *
    * @param pipelineConfigurer the collection of the pipeline configuration and context
-   * @throws ValidationException when the configuration validate fails
    */
   @Override
   public void configurePipeline(PipelineConfigurer pipelineConfigurer) {
