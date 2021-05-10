@@ -58,7 +58,6 @@ public class AnaplanFunctionRunner extends Action {
     super.configurePipeline(pipelineConfigurer);
     FailureCollector collector = pipelineConfigurer.getStageConfigurer().getFailureCollector();
     config.validate(collector);
-    collector.getOrThrowException();
   }
 
   /**
@@ -73,7 +72,11 @@ public class AnaplanFunctionRunner extends Action {
    */
   @Override
   public void run(ActionContext context) throws InterruptedException, URISyntaxException {
-    LOG.debug(String.format("Running the 'run' method of the %s action.", PLUGIN_NAME));
+    LOG.debug(String.format(
+      "Running the 'run' method for the %s function in workspace: %s and model: %s.",
+      config.getFunctionName(),
+      config.getWorkspaceId(),
+      config.getModelId()));
 
     FailureCollector collector = context.getFailureCollector();
     config.validate(collector);

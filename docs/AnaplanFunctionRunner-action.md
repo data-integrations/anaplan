@@ -24,6 +24,5 @@
 
  **User Name:** The service account used for the connection.
 
- **Password:** The password for authentication. It's suggested to use CDF build-in Cloud KMS integration 
- to manage the password and utilize macro in this filed. 
+ **Password:** The password for authentication. It is suggested to use a secure macro to manage the password. 
  Reference: [Provide secure information to pipelines](https://datafusion.atlassian.net/wiki/spaces/KB/pages/32276556/Provide+secure+information+to+pipelines)
