@@ -77,7 +77,7 @@ class AnaplanSinkConfig extends AnaplanPluginConfig {
 
   private static void validateFieldSupportedByAnaplan(Schema.Field field,
     FailureCollector collector) {
-    Schema fieldSchema = field.getSchema();
+    Schema fieldSchema = getNonNullableSchema(field.getSchema());
     Schema.Type type = fieldSchema.getType();
     Schema.LogicalType logicalType = fieldSchema.getLogicalType();
 
@@ -94,6 +94,10 @@ class AnaplanSinkConfig extends AnaplanPluginConfig {
         return;
       }
     }
+  }
+
+  private static Schema getNonNullableSchema(Schema schema) {
+    return schema.isNullable() ? schema.getNonNullable() : schema;
   }
 
   private static String generateUnsupportedTypeErrorMessage(Schema.Field field,
