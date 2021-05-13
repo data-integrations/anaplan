@@ -4,7 +4,9 @@
  -----------
  Sink plugin for supporting data import from CDF to Anaplan server.
 
- The placeholder with the same name as in the `Server file` filed must be predefined in the given Anaplan model.
+ The placeholder with the same name as in the `Server file` field must be predefined in the given Anaplan model.
+ 
+ Due to the limitation of Anaplan API 2.0, this plugin does not write data in parallel so may take some time on larger datasets.
 
  Properties
  ----------
@@ -22,3 +24,24 @@
 
  **Password:** The password for authentication. It is suggested to use a secure macro to manage the password. 
  Reference: [Provide secure information to pipelines](https://datafusion.atlassian.net/wiki/spaces/KB/pages/32276556/Provide+secure+information+to+pipelines)
+
+Data Type Mappings from CDAP to Anaplan
+----------
+The following table lists out different CDAP data types, as well as the 
+corresponding Anaplan data type for each CDAP type.
+
+| CDAP type      | Anaplan type  |
+|----------------|---------------|
+| string         | text          |
+| boolean        | bool          |
+| date           | date          |
+| decimal        | numeric       |
+| double / float | numeric       |
+| int / long     | numeric       |
+| time           | unsupported   |
+| bytes          | unsupported   |
+| array          | unsupported   |
+| union          | unsupported   |
+| map            | unsupported   |
+| record         | unsupported   |
+| enum           | unsupported   |

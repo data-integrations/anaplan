@@ -23,6 +23,9 @@ import static com.anaplan.client.AnaplanService.NAME_SERVICE_LOCATION;
 import static com.anaplan.client.AnaplanService.NAME_USERNAME;
 import static com.anaplan.client.AnaplanService.NAME_WORKSPACE_ID;
 
+import com.google.planningworks.cdap.plugins.base.AnaplanPluginConfig;
+import io.cdap.cdap.api.data.schema.Schema;
+import io.cdap.cdap.api.data.schema.Schema.LogicalType;
 import io.cdap.cdap.etl.mock.validation.MockFailureCollector;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,72 +38,56 @@ import org.mockito.internal.util.reflection.FieldSetter;
 public class AnaplanSinkTest {
 
   AnaplanSinkConfig config;
+  Schema schema;
   MockFailureCollector failureCollector;
 
   @Before
   public void setUp() throws Exception {
     failureCollector = new MockFailureCollector("AnaplanSinkTest");
     config = getConfig();
+    schema = getSupportedSchema();
   }
 
   @Test
   public void testParameterValidationPass() {
-    config.validate(failureCollector);
+    config.validate(failureCollector, schema);
     Assert.assertEquals(/*expected =*/ 0, failureCollector.getValidationFailures().size());
+  }
+
+  @Test
+  public void testUnsupportedSchema() {
+    schema = getUnsupportedSchema();
+    config.validate(failureCollector, schema);
+    Assert.assertEquals(/*expected =*/ 5, failureCollector.getValidationFailures().size());
   }
 
   @Test
   public void testEmptyServerFileName() throws Exception {
     FieldSetter.setField(
       config, AnaplanSinkConfig.class.getDeclaredField(NAME_SERVER_FILE_NAME), "");
-    config.validate(failureCollector);
+    config.validate(failureCollector, schema);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }
 
-  @Test
-  public void testInvalidServiceLocation() throws Exception {
-    FieldSetter.setField(
-      config, AnaplanSinkConfig.class.getDeclaredField(NAME_SERVICE_LOCATION), "invalid uri");
-    config.validate(failureCollector);
-    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
+  private Schema getSupportedSchema() {
+    return Schema.recordOf("record",
+      Schema.Field.of("long", Schema.of(Schema.Type.LONG)),
+      Schema.Field.of("int", Schema.of(Schema.Type.INT)),
+      Schema.Field.of("string", Schema.of(Schema.Type.STRING)),
+      Schema.Field.of("float", Schema.of(Schema.Type.FLOAT)),
+      Schema.Field.of("price", Schema.of(Schema.Type.DOUBLE)),
+      Schema.Field.of("boolean", Schema.of(Schema.Type.BOOLEAN)),
+      Schema.Field.of("date", Schema.of(LogicalType.DATE)),
+      Schema.Field.of("decimal", Schema.decimalOf(20)));
   }
 
-  @Test
-  public void testInvalidAuthServiceLocation() throws Exception {
-    FieldSetter.setField(
-      config,
-      AnaplanSinkConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
-      "invalid uri");
-    config.validate(failureCollector);
-    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
-  }
-
-  @Test
-  public void testEmptyUserName() throws Exception {
-    FieldSetter.setField(config, AnaplanSinkConfig.class.getDeclaredField(NAME_USERNAME), "");
-    config.validate(failureCollector);
-    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
-  }
-
-  @Test
-  public void testEmptyPassword() throws Exception {
-    FieldSetter.setField(config, AnaplanSinkConfig.class.getDeclaredField(NAME_PASSWORD), "");
-    config.validate(failureCollector);
-    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
-  }
-
-  @Test
-  public void testEmptyWorkspaceID() throws Exception {
-    FieldSetter.setField(config, AnaplanSinkConfig.class.getDeclaredField(NAME_WORKSPACE_ID), "");
-    config.validate(failureCollector);
-    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
-  }
-
-  @Test
-  public void testEmptyModelID() throws Exception {
-    FieldSetter.setField(config, AnaplanSinkConfig.class.getDeclaredField(NAME_MODEL_ID), "");
-    config.validate(failureCollector);
-    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
+  private Schema getUnsupportedSchema() {
+    return Schema.recordOf("record",
+      Schema.Field.of("bytes", Schema.of(Schema.Type.BYTES)),
+      Schema.Field.of("timestamp millis", Schema.of(LogicalType.TIMESTAMP_MILLIS)),
+      Schema.Field.of("timestamp micros", Schema.of(LogicalType.TIMESTAMP_MICROS)),
+      Schema.Field.of("time millis", Schema.of(LogicalType.TIME_MILLIS)),
+      Schema.Field.of("time micros", Schema.of(LogicalType.TIME_MICROS)));
   }
 
   private AnaplanSinkConfig getConfig() throws Exception {
@@ -108,27 +95,27 @@ public class AnaplanSinkTest {
 
     FieldSetter.setField(
       config,
-      AnaplanSinkConfig.class.getDeclaredField(NAME_SERVICE_LOCATION),
+      AnaplanPluginConfig.class.getDeclaredField(NAME_SERVICE_LOCATION),
       "https://mock.anaplan.com");
 
     FieldSetter.setField(
       config,
-      AnaplanSinkConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
+      AnaplanPluginConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
       "https://mock.anaplan.com");
 
     FieldSetter.setField(
-      config, AnaplanSinkConfig.class.getDeclaredField(NAME_USERNAME), "username@gmail.com");
+      config, AnaplanPluginConfig.class.getDeclaredField(NAME_USERNAME), "username@gmail.com");
 
-    FieldSetter.setField(config, AnaplanSinkConfig.class.getDeclaredField(NAME_PASSWORD), "pass");
+    FieldSetter.setField(config, AnaplanPluginConfig.class.getDeclaredField(NAME_PASSWORD), "pass");
 
     FieldSetter.setField(
       config,
-      AnaplanSinkConfig.class.getDeclaredField(NAME_WORKSPACE_ID),
+      AnaplanPluginConfig.class.getDeclaredField(NAME_WORKSPACE_ID),
       "8a81b01068d4b6820169da807d121dtt");
 
     FieldSetter.setField(
       config,
-      AnaplanSinkConfig.class.getDeclaredField(NAME_MODEL_ID),
+      AnaplanPluginConfig.class.getDeclaredField(NAME_MODEL_ID),
       "6387EC16A2104DECA9F56AB3C9BD54PP");
 
     FieldSetter.setField(

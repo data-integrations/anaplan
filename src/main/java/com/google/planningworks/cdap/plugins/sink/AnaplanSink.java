@@ -16,12 +16,12 @@
 package com.google.planningworks.cdap.plugins.sink;
 
 import com.anaplan.client.AnaplanService;
-import com.anaplan.client.AnaplanService.AnaplanConfig;
 import com.anaplan.client.ex.ServerFilesNotFoundException;
 import io.cdap.cdap.api.annotation.Description;
 import io.cdap.cdap.api.annotation.Name;
 import io.cdap.cdap.api.annotation.Plugin;
 import io.cdap.cdap.api.data.format.StructuredRecord;
+import io.cdap.cdap.api.data.schema.Schema;
 import io.cdap.cdap.api.data.schema.Schema.Field;
 import io.cdap.cdap.etl.api.FailureCollector;
 import io.cdap.cdap.etl.api.PipelineConfigurer;
@@ -30,7 +30,6 @@ import io.cdap.cdap.etl.api.batch.SparkPluginContext;
 import io.cdap.cdap.etl.api.batch.SparkSink;
 import io.cdap.cdap.etl.api.validation.ValidationException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.stream.Collectors;
@@ -69,7 +68,8 @@ public class AnaplanSink extends SparkSink<StructuredRecord> {
   public void configurePipeline(PipelineConfigurer pipelineConfigurer) {
     super.configurePipeline(pipelineConfigurer);
     FailureCollector collector = pipelineConfigurer.getStageConfigurer().getFailureCollector();
-    config.validate(collector);
+    Schema schema = pipelineConfigurer.getStageConfigurer().getInputSchema();
+    config.validate(collector, schema);
   }
 
   /**
@@ -80,11 +80,12 @@ public class AnaplanSink extends SparkSink<StructuredRecord> {
   @Override
   public void prepareRun(SparkPluginContext sparkPluginContext) {
     FailureCollector collector = sparkPluginContext.getFailureCollector();
-    config.validate(collector);
+    Schema schema = sparkPluginContext.getInputSchema();
+    config.validate(collector, schema);
   }
 
   /**
-   * Sinks the data into Anaplan server via Anaplan REST API.
+   * Sinks the data into Anaplan server via {@link SinkToAnaplanProcess}.
    *
    * <p>Since Anaplan REST API does not supports the paralleling data upload, the thread number &
    * data partition of the spark program is restricted to 1.
@@ -94,64 +95,38 @@ public class AnaplanSink extends SparkSink<StructuredRecord> {
    * @throws IOException – when an I/O error occurs during uploading the file
    * @throws ServerFilesNotFoundException – when requested serverFile is not found in the model
    * @throws URISyntaxException when given Anaplan service location or auth location is with an
-   *  invalid format.
+   * invalid format.
    * @throws ValidationException when the configuration validate fails
-   *
    */
   @Override
   public void run(
-    SparkExecutionPluginContext sparkExecutionPluginContext, JavaRDD<StructuredRecord> javaRDD) {
+    SparkExecutionPluginContext sparkExecutionPluginContext, JavaRDD<StructuredRecord> javaRDD)
+    throws URISyntaxException {
     FailureCollector collector = sparkExecutionPluginContext.getFailureCollector();
-    config.validate(collector);
+    Schema schema = sparkExecutionPluginContext.getInputSchema();
+    config.validate(collector, schema);
     collector.getOrThrowException();
 
     javaRDD.coalesce(THREAD_NUM);
-
     String header = getSchemaHeader(sparkExecutionPluginContext);
 
+    SinkToAnaplanProcess sinkToAnaplanProcess = new SinkToAnaplanProcess(header,
+      config.getWorkspaceId(),
+      config.getModelId(),
+      config.getServerFileName(),
+      AnaplanSinkConfig.CHUNK_SIZE,
+      config.getUsername(),
+      config.getPassword(),
+      new URI(config.getServiceLocation()),
+      new URI(config.getAuthServiceLocation()));
+
     // There will be always only 1 partition since we coalesce the partition number to 1
-    javaRDD.foreachPartition(
-      iterator -> {
-        AnaplanConfig anaplanConfig = new AnaplanConfig(
-          config.getUsername(),
-          config.getPassword(),
-          new URI(config.getServiceLocation()),
-          new URI(config.getAuthServiceLocation()));
-        AnaplanService.setTaskMetadata(anaplanConfig);
-
-        OutputStream uploadOutputStream = retrieveOutputStreamForServerFile(config);
-        uploadOutputStream.write(header.getBytes());
-        while (iterator.hasNext()) {
-          String data = getDataRow(iterator.next());
-          uploadOutputStream.write(data.getBytes());
-        }
-
-        uploadOutputStream.close();
-        AnaplanService.closeDown();
-      });
+    javaRDD.foreachPartition(sinkToAnaplanProcess);
   }
 
   private static String getSchemaHeader(SparkExecutionPluginContext sparkExecutionPluginContext) {
     return sparkExecutionPluginContext.getInputSchema().getFields().stream()
       .map(Field::getName)
       .collect(Collectors.joining(/* delimiter = */ ","));
-  }
-
-  private static OutputStream retrieveOutputStreamForServerFile(AnaplanSinkConfig config) {
-    return AnaplanService.getUploadServerFileOutputStream(
-      config.getWorkspaceId(),
-      config.getModelId(),
-      config.getServerFileName(),
-      AnaplanSinkConfig.CHUNK_SIZE);
-  }
-
-  private static String getDataRow(StructuredRecord input) {
-    String dataRow =
-      input.getSchema().getFields().stream()
-        .map(Field::getName)
-        .map(input::get)
-        .map(val -> val == null ? "" : String.valueOf(val))
-        .collect(Collectors.joining(/* delimiter = */ ","));
-    return dataRow + "\n";
   }
 }
