@@ -32,16 +32,20 @@ corresponding Anaplan data type for each CDAP type.
 
 | CDAP type      | Anaplan type  |
 |----------------|---------------|
-| string         | text          |
-| boolean        | bool          |
-| date           | date          |
-| decimal        | numeric       |
-| double / float | numeric       |
-| int / long     | numeric       |
-| time           | unsupported   |
-| bytes          | unsupported   |
 | array          | unsupported   |
-| union          | unsupported   |
+| boolean        | bool          |
+| bytes          | unsupported   |
+| date           | date          |
+| datetime       | unsupported   |
+| decimal        | numeric       |
+| double         | numeric       |
+| enum           | unsupported   |
+| float          | numeric       |
+| int            | numeric       |
+| long           | numeric       |
 | map            | unsupported   |
 | record         | unsupported   |
-| enum           | unsupported   |
+| string         | text          |
+| time           | unsupported   |
+| timestamp      | unsupported   |
+| union          | unsupported   |

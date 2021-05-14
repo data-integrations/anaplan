@@ -15,9 +15,7 @@
  */
 package com.google.planningworks.cdap.plugins.sink;
 
-import static com.anaplan.client.AnaplanService.NAME_MODEL_ID;
-import static com.anaplan.client.AnaplanService.NAME_SERVER_FILE_NAME;
-
+import com.anaplan.client.AnaplanService;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.planningworks.cdap.plugins.base.AnaplanPluginConfig;
@@ -43,7 +41,7 @@ class AnaplanSinkConfig extends AnaplanPluginConfig {
   public static final Set<Schema.LogicalType> SUPPORTED_LOGICAL_TYPES =
     ImmutableSet.of(Schema.LogicalType.DATE, Schema.LogicalType.DECIMAL);
 
-  @Name(NAME_SERVER_FILE_NAME)
+  @Name(AnaplanService.NAME_SERVER_FILE_NAME)
   @Macro
   @Description("Anaplan Server file name")
   private String serverFileName;
@@ -56,10 +54,11 @@ class AnaplanSinkConfig extends AnaplanPluginConfig {
   public void validate(FailureCollector collector, Schema schema) {
     super.validate(collector);
 
-    if (!containsMacro(NAME_SERVER_FILE_NAME) && Strings.isNullOrEmpty(serverFileName)) {
+    if (!containsMacro(AnaplanService.NAME_SERVER_FILE_NAME) && Strings
+      .isNullOrEmpty(serverFileName)) {
       collector
         .addFailure("Server file is not presented.", null)
-        .withConfigProperty(NAME_MODEL_ID);
+        .withConfigProperty(AnaplanService.NAME_MODEL_ID);
     }
 
     validateSchemaSupportedByAnaplan(schema, collector);
@@ -84,13 +83,17 @@ class AnaplanSinkConfig extends AnaplanPluginConfig {
     // validate logical types
     if (logicalType != null) {
       if (!SUPPORTED_LOGICAL_TYPES.contains(logicalType)) {
-        collector.addFailure(generateUnsupportedTypeErrorMessage(field, fieldSchema),
-          generateUnsupportedTypeCorrectiveAction());
+        collector
+          .addFailure(generateUnsupportedTypeErrorMessage(field, fieldSchema),
+            generateUnsupportedTypeCorrectiveAction())
+          .withInputSchemaField(field.getName());
       }
     } else { // validate types
       if (!SUPPORTED_TYPES.contains(type)) {
-        collector.addFailure(generateUnsupportedTypeErrorMessage(field, fieldSchema),
-          generateUnsupportedTypeCorrectiveAction());
+        collector
+          .addFailure(generateUnsupportedTypeErrorMessage(field, fieldSchema),
+            generateUnsupportedTypeCorrectiveAction())
+          .withInputSchemaField(field.getName());
         return;
       }
     }

@@ -15,13 +15,7 @@
  */
 package com.google.planningworks.cdap.plugins.base;
 
-import static com.anaplan.client.AnaplanService.NAME_AUTH_SERVICE_LOCATION;
-import static com.anaplan.client.AnaplanService.NAME_MODEL_ID;
-import static com.anaplan.client.AnaplanService.NAME_PASSWORD;
-import static com.anaplan.client.AnaplanService.NAME_SERVICE_LOCATION;
-import static com.anaplan.client.AnaplanService.NAME_USERNAME;
-import static com.anaplan.client.AnaplanService.NAME_WORKSPACE_ID;
-
+import com.anaplan.client.AnaplanService;
 import io.cdap.cdap.etl.mock.validation.MockFailureCollector;
 import org.junit.Assert;
 import org.junit.Before;
@@ -52,7 +46,7 @@ public class AnaplanPluginConfigTest {
   public void testInvalidServiceLocation() throws Exception {
     FieldSetter.setField(
       config,
-      AnaplanPluginConfig.class.getDeclaredField(NAME_SERVICE_LOCATION),
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_SERVICE_LOCATION),
       "invalid uri");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
@@ -62,7 +56,7 @@ public class AnaplanPluginConfigTest {
   public void testInvalidAuthServiceLocation() throws Exception {
     FieldSetter.setField(
       config,
-      AnaplanPluginConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_AUTH_SERVICE_LOCATION),
       "invalid uri");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
@@ -71,7 +65,7 @@ public class AnaplanPluginConfigTest {
   @Test
   public void testEmptyUserName() throws Exception {
     FieldSetter.setField(
-      config, AnaplanPluginConfig.class.getDeclaredField(NAME_USERNAME), "");
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_USERNAME), "");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }
@@ -79,7 +73,7 @@ public class AnaplanPluginConfigTest {
   @Test
   public void testEmptyPassword() throws Exception {
     FieldSetter.setField(
-      config, AnaplanPluginConfig.class.getDeclaredField(NAME_PASSWORD), "");
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_PASSWORD), "");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }
@@ -87,7 +81,7 @@ public class AnaplanPluginConfigTest {
   @Test
   public void testEmptyWorkspaceID() throws Exception {
     FieldSetter.setField(
-      config, AnaplanPluginConfig.class.getDeclaredField(NAME_WORKSPACE_ID), "");
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_WORKSPACE_ID), "");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }
@@ -95,7 +89,7 @@ public class AnaplanPluginConfigTest {
   @Test
   public void testEmptyModelID() throws Exception {
     FieldSetter.setField(
-      config, AnaplanPluginConfig.class.getDeclaredField(NAME_MODEL_ID), "");
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_MODEL_ID), "");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }
@@ -105,30 +99,30 @@ public class AnaplanPluginConfigTest {
 
     FieldSetter.setField(
       config,
-      AnaplanPluginConfig.class.getDeclaredField(NAME_SERVICE_LOCATION),
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_SERVICE_LOCATION),
       "https://mock.anaplan.com");
 
     FieldSetter.setField(
       config,
-      AnaplanPluginConfig.class.getDeclaredField(NAME_AUTH_SERVICE_LOCATION),
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_AUTH_SERVICE_LOCATION),
       "https://mock.anaplan.com");
 
     FieldSetter.setField(
       config,
-      AnaplanPluginConfig.class.getDeclaredField(NAME_USERNAME),
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_USERNAME),
       "username@gmail.com");
 
     FieldSetter.setField(
-      config, AnaplanPluginConfig.class.getDeclaredField(NAME_PASSWORD), "pass");
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_PASSWORD), "pass");
 
     FieldSetter.setField(
       config,
-      AnaplanPluginConfig.class.getDeclaredField(NAME_WORKSPACE_ID),
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_WORKSPACE_ID),
       "8a81b01068d4b6820169da807d121dtt");
 
     FieldSetter.setField(
       config,
-      AnaplanPluginConfig.class.getDeclaredField(NAME_MODEL_ID),
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_MODEL_ID),
       "6387EC16A2104DECA9F56AB3C9BD54PP");
 
     return config;

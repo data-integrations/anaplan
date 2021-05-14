@@ -31,11 +31,14 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** CDF Action plugin for running Anaplan Process & Actions. */
+/**
+ * CDF Action plugin for running Anaplan Process & Actions.
+ */
 @Plugin(type = Action.PLUGIN_TYPE)
 @Name(AnaplanFunctionRunner.PLUGIN_NAME)
 @Description("Run Anaplan Process/Action.")
 public class AnaplanFunctionRunner extends Action {
+
   public static final String PLUGIN_NAME = "AnaplanFunctionRunner";
 
   private static final Logger LOG = LoggerFactory.getLogger(AnaplanFunctionRunner.class);
@@ -66,7 +69,7 @@ public class AnaplanFunctionRunner extends Action {
    * @throws IllegalArgumentException when function type value is invalid
    * @throws InterruptedException when the error happens during the function run
    * @throws URISyntaxException when given Anaplan service location or auth location is with an
-   *  invalid format.
+   * invalid format.
    * @throws ValidationException when the configuration validate fails
    */
   @Override

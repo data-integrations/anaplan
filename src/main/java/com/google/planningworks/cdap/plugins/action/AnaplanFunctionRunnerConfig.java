@@ -28,6 +28,7 @@ import io.cdap.cdap.etl.api.FailureCollector;
  * filled in by the user when building a pipeline.
  */
 class AnaplanFunctionRunnerConfig extends AnaplanPluginConfig {
+
   public static final String NAME_FUNCTION_TYPE = "functionType";
   public static final String NAME_FUNCTION_NAME = "functionName";
 

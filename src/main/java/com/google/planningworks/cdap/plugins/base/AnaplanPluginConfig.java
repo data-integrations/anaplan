@@ -1,12 +1,5 @@
 package com.google.planningworks.cdap.plugins.base;
 
-import static com.anaplan.client.AnaplanService.NAME_AUTH_SERVICE_LOCATION;
-import static com.anaplan.client.AnaplanService.NAME_MODEL_ID;
-import static com.anaplan.client.AnaplanService.NAME_PASSWORD;
-import static com.anaplan.client.AnaplanService.NAME_SERVICE_LOCATION;
-import static com.anaplan.client.AnaplanService.NAME_USERNAME;
-import static com.anaplan.client.AnaplanService.NAME_WORKSPACE_ID;
-
 import com.anaplan.client.AnaplanService;
 import io.cdap.cdap.api.annotation.Description;
 import io.cdap.cdap.api.annotation.Macro;
@@ -19,32 +12,32 @@ import io.cdap.cdap.etl.api.FailureCollector;
  */
 public class AnaplanPluginConfig extends PluginConfig {
 
-  @Name(NAME_SERVICE_LOCATION)
+  @Name(AnaplanService.NAME_SERVICE_LOCATION)
   @Macro
   @Description("Service location of your Anaplan API")
   protected String serviceLocation;
 
-  @Name(NAME_AUTH_SERVICE_LOCATION)
+  @Name(AnaplanService.NAME_AUTH_SERVICE_LOCATION)
   @Macro
   @Description("Service location of your Anaplan authentication API")
   protected String authServiceLocation;
 
-  @Name(NAME_USERNAME)
+  @Name(AnaplanService.NAME_USERNAME)
   @Macro
   @Description("Username")
   protected String username;
 
-  @Name(NAME_PASSWORD)
+  @Name(AnaplanService.NAME_PASSWORD)
   @Macro
   @Description("Password")
   protected String password;
 
-  @Name(NAME_WORKSPACE_ID)
+  @Name(AnaplanService.NAME_WORKSPACE_ID)
   @Macro
   @Description("WorkspaceId")
   protected String workspaceId;
 
-  @Name(NAME_MODEL_ID)
+  @Name(AnaplanService.NAME_MODEL_ID)
   @Macro
   @Description("ModelId")
   protected String modelId;
@@ -55,76 +48,80 @@ public class AnaplanPluginConfig extends PluginConfig {
    * @param collector the shared failure info collector storing the validation failures
    */
   public void validate(FailureCollector collector) {
-    if (!containsMacro(NAME_SERVICE_LOCATION)) {
+    if (!containsMacro(AnaplanService.NAME_SERVICE_LOCATION)) {
       try {
         AnaplanService.validateServiceLocation(serviceLocation);
       } catch (IllegalArgumentException e) {
         collector
           .addFailure(e.getMessage(), null)
-          .withConfigProperty(NAME_SERVICE_LOCATION)
+          .withConfigProperty(AnaplanService.NAME_SERVICE_LOCATION)
           .withStacktrace(e.getStackTrace());
       }
     }
 
-    if (!containsMacro(NAME_AUTH_SERVICE_LOCATION)) {
+    if (!containsMacro(AnaplanService.NAME_AUTH_SERVICE_LOCATION)) {
       try {
         AnaplanService.validateAuthServiceLocation(authServiceLocation);
       } catch (IllegalArgumentException e) {
         collector
           .addFailure(e.getMessage(), null)
-          .withConfigProperty(NAME_AUTH_SERVICE_LOCATION)
+          .withConfigProperty(AnaplanService.NAME_AUTH_SERVICE_LOCATION)
           .withStacktrace(e.getStackTrace());
       }
     }
 
-    if (!containsMacro(NAME_USERNAME)) {
+    if (!containsMacro(AnaplanService.NAME_USERNAME)) {
       try {
         AnaplanService.validateUsername(username);
       } catch (IllegalArgumentException e) {
         collector
           .addFailure(e.getMessage(), null)
-          .withConfigProperty(NAME_USERNAME)
+          .withConfigProperty(AnaplanService.NAME_USERNAME)
           .withStacktrace(e.getStackTrace());
       }
     }
 
-    if (!containsMacro(NAME_PASSWORD)) {
+    if (!containsMacro(AnaplanService.NAME_PASSWORD)) {
       try {
         AnaplanService.validatePassword(password);
       } catch (IllegalArgumentException e) {
         collector
           .addFailure(e.getMessage(), null)
-          .withConfigProperty(NAME_PASSWORD)
+          .withConfigProperty(AnaplanService.NAME_PASSWORD)
           .withStacktrace(e.getStackTrace());
       }
     }
 
-    if (!containsMacro(NAME_WORKSPACE_ID)) {
+    if (!containsMacro(AnaplanService.NAME_WORKSPACE_ID)) {
       try {
         AnaplanService.validateWorkspaceId(workspaceId);
       } catch (IllegalArgumentException e) {
         collector
           .addFailure(e.getMessage(), null)
-          .withConfigProperty(NAME_WORKSPACE_ID)
+          .withConfigProperty(AnaplanService.NAME_WORKSPACE_ID)
           .withStacktrace(e.getStackTrace());
       }
     }
 
-    if (!containsMacro(NAME_MODEL_ID)) {
+    if (!containsMacro(AnaplanService.NAME_MODEL_ID)) {
       try {
         AnaplanService.validateModelId(modelId);
       } catch (IllegalArgumentException e) {
         collector
           .addFailure(e.getMessage(), null)
-          .withConfigProperty(NAME_MODEL_ID)
+          .withConfigProperty(AnaplanService.NAME_MODEL_ID)
           .withStacktrace(e.getStackTrace());
       }
     }
   }
 
-  public String getServiceLocation() { return serviceLocation; }
+  public String getServiceLocation() {
+    return serviceLocation;
+  }
 
-  public String getAuthServiceLocation() { return authServiceLocation; }
+  public String getAuthServiceLocation() {
+    return authServiceLocation;
+  }
 
   public String getUsername() {
     return username;
