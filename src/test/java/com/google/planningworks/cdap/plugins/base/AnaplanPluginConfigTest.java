@@ -13,10 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.google.planningworks.cdap.plugins.action;
+package com.google.planningworks.cdap.plugins.base;
 
 import com.anaplan.client.AnaplanService;
-import com.google.planningworks.cdap.plugins.base.AnaplanPluginConfig;
 import io.cdap.cdap.etl.mock.validation.MockFailureCollector;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,9 +25,9 @@ import org.junit.runners.JUnit4;
 import org.mockito.internal.util.reflection.FieldSetter;
 
 @RunWith(JUnit4.class)
-public class AnaplanFunctionRunnerTest {
+public class AnaplanPluginConfigTest {
 
-  AnaplanFunctionRunnerConfig config;
+  AnaplanPluginConfig config;
   MockFailureCollector failureCollector;
 
   @Before
@@ -44,27 +43,59 @@ public class AnaplanFunctionRunnerTest {
   }
 
   @Test
-  public void testInvalidFunctionType() throws Exception {
+  public void testInvalidServiceLocation() throws Exception {
     FieldSetter.setField(
       config,
-      AnaplanFunctionRunnerConfig.class
-        .getDeclaredField(AnaplanFunctionRunnerConfig.NAME_FUNCTION_TYPE),
-      "RANDOM_FUNCTION");
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_SERVICE_LOCATION),
+      "invalid uri");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }
 
   @Test
-  public void testEmptyFunctionName() throws Exception {
+  public void testInvalidAuthServiceLocation() throws Exception {
     FieldSetter.setField(
-      config, AnaplanFunctionRunnerConfig.class
-        .getDeclaredField(AnaplanFunctionRunnerConfig.NAME_FUNCTION_NAME), "");
+      config,
+      AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_AUTH_SERVICE_LOCATION),
+      "invalid uri");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }
 
-  private AnaplanFunctionRunnerConfig getConfig() throws Exception {
-    AnaplanFunctionRunnerConfig config = new AnaplanFunctionRunnerConfig();
+  @Test
+  public void testEmptyUserName() throws Exception {
+    FieldSetter.setField(
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_USERNAME), "");
+    config.validate(failureCollector);
+    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
+  }
+
+  @Test
+  public void testEmptyPassword() throws Exception {
+    FieldSetter.setField(
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_PASSWORD), "");
+    config.validate(failureCollector);
+    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
+  }
+
+  @Test
+  public void testEmptyWorkspaceID() throws Exception {
+    FieldSetter.setField(
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_WORKSPACE_ID), "");
+    config.validate(failureCollector);
+    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
+  }
+
+  @Test
+  public void testEmptyModelID() throws Exception {
+    FieldSetter.setField(
+      config, AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_MODEL_ID), "");
+    config.validate(failureCollector);
+    Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
+  }
+
+  private AnaplanPluginConfig getConfig() throws Exception {
+    AnaplanPluginConfig config = new AnaplanPluginConfig();
 
     FieldSetter.setField(
       config,
@@ -93,16 +124,6 @@ public class AnaplanFunctionRunnerTest {
       config,
       AnaplanPluginConfig.class.getDeclaredField(AnaplanService.NAME_MODEL_ID),
       "6387EC16A2104DECA9F56AB3C9BD54PP");
-
-    FieldSetter.setField(
-      config, AnaplanFunctionRunnerConfig.class
-        .getDeclaredField(AnaplanFunctionRunnerConfig.NAME_FUNCTION_TYPE), "PROCESS");
-
-    FieldSetter.setField(
-      config,
-      AnaplanFunctionRunnerConfig.class
-        .getDeclaredField(AnaplanFunctionRunnerConfig.NAME_FUNCTION_NAME),
-      "run process");
 
     return config;
   }
