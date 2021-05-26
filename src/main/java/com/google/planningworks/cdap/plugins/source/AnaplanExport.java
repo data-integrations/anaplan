@@ -165,7 +165,7 @@ public class AnaplanExport extends AbstractFileSource<AnaplanExportConfig> {
   protected void recordLineage(LineageRecorder lineageRecorder, List<String> outputFields) {
     lineageRecorder.recordRead(
       "Read",
-      "Read from Google Cloud Storage.",
+      "Read from Anaplan.",
       outputFields);
   }
 
