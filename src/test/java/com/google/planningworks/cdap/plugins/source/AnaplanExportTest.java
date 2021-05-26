@@ -64,7 +64,7 @@ public class AnaplanExportTest {
   public void testInvalidFilePath() throws Exception {
     FieldSetter
       .setField(config, AnaplanExportConfig.class.getDeclaredField(AnaplanExportConfig.NAME_BUCKET),
-        "sl:=+");
+        "sl: =+");
     config.validate(failureCollector);
     Assert.assertEquals(/*expected =*/ 1, failureCollector.getValidationFailures().size());
   }

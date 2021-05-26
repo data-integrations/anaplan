@@ -37,9 +37,7 @@ import io.cdap.cdap.etl.api.batch.BatchSource;
 import io.cdap.cdap.etl.api.batch.BatchSourceContext;
 import io.cdap.cdap.etl.api.validation.ValidationException;
 import io.cdap.plugin.common.LineageRecorder;
-import io.cdap.plugin.format.input.PathTrackingInputFormat;
 import io.cdap.plugin.format.plugin.AbstractFileSource;
-import io.cdap.plugin.format.plugin.AbstractFileSourceConfig;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -160,43 +158,21 @@ public class AnaplanExport extends AbstractFileSource<AnaplanExportConfig> {
 
   @Override
   protected Map<String, String> getFileSystemProperties(BatchSourceContext context) {
-    Map<String, String> properties =
-      getFileSystemProperties(
-        config, config.getPath(), new HashMap<>(config.getFileSystemProperties()));
-    if (config.isCopyHeader()) {
-      properties.put(PathTrackingInputFormat.COPY_HEADER, Boolean.TRUE.toString());
-    }
-    if (config.getFileEncoding() != null
-      && !config
-      .getFileEncoding()
-      .equalsIgnoreCase(AbstractFileSourceConfig.DEFAULT_FILE_ENCODING)) {
-      properties.put(PathTrackingInputFormat.SOURCE_FILE_ENCODING, config.getFileEncoding());
-    }
-    if (config.getMinSplitSize() != null) {
-      properties.put(
-        "mapreduce.input.fileinputformat.split.minsize",
-        String.valueOf(config.getMinSplitSize()));
-    }
-
-    return properties;
+    return getFileSystemProperties(config, config.getPath(), new HashMap<>());
   }
 
   @Override
   protected void recordLineage(LineageRecorder lineageRecorder, List<String> outputFields) {
     lineageRecorder.recordRead(
       "Read",
-      String.format(
-        "Read%sfrom Google Cloud Storage.", config.isEncrypted() ? " and decrypt " : " "),
+      "Read from Google Cloud Storage.",
       outputFields);
   }
 
   @Override
   protected boolean shouldGetSchema() {
     return !config.containsMacro(AnaplanExportConfig.NAME_PROJECT)
-      && !config.containsMacro(AnaplanExportConfig.NAME_PATH)
       && !config.containsMacro(AnaplanExportConfig.NAME_FORMAT)
-      && !config.containsMacro(AnaplanExportConfig.NAME_DELIMITER)
-      && !config.containsMacro(AnaplanExportConfig.NAME_FILE_SYSTEM_PROPERTIES)
       && !config.containsMacro(AnaplanExportConfig.NAME_SERVICE_ACCOUNT_FILE_PATH)
       && !config.containsMacro(AnaplanExportConfig.NAME_SERVICE_ACCOUNT_JSON);
   }
