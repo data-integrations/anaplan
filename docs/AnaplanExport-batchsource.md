@@ -73,4 +73,7 @@ corresponding CDAP data type for each Anaplan type.
 | text           | string         |
 | bool           | boolean        |
 | date           | date           |
-| numeric        | decimal        |
+| numeric        | double         |
+| numeric        | float          |
+| numeric        | int            |
+| numeric        | long           |
