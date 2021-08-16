@@ -20,7 +20,7 @@
 
   <groupId>com.google.planningworks.cdap.plugins</groupId>
   <artifactId>anaplan.plugins</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
   <name>Anaplan Plugins</name>
@@ -28,8 +28,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <cdap.version>6.2.3</cdap.version>
-    <cdap.plugin.version>2.6.0-SNAPSHOT</cdap.plugin.version>
-    <etl.versionRange>[6.0.0,10.0.0-SNAPSHOT)</etl.versionRange>
+    <cdap.plugin.version>2.6.0</cdap.plugin.version>
+    <etl.versionRange>[6.2.0,7.0.0-SNAPSHOT)</etl.versionRange>
     <exported-packages>com.google.planningworks.cdap.plugins.*;</exported-packages>
     <gcs.connector.version>hadoop2-2.0.0</gcs.connector.version>
     <google.cloud.storage.version>1.111.2</google.cloud.storage.version>
