@@ -19,7 +19,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.google.planningworks.cdap.plugins</groupId>
-  <artifactId>anaplan.plugins</artifactId>
+  <artifactId>anaplan-plugins</artifactId>
   <version>0.1.1</version>
   <packaging>jar</packaging>
 
