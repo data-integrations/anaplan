@@ -231,7 +231,7 @@ public class AnaplanExportConfig extends AnaplanPluginConfig implements FileSour
 
   @Override
   public boolean skipHeader() {
-    return false;
+    return true;
   }
 
   /**
