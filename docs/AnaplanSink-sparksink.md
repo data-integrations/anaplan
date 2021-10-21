@@ -1,33 +1,32 @@
 # Anaplan sink
 
- Description
- -----------
- Sink plugin for supporting data import from CDF to Anaplan server.
+Description
+-----------
+Writes data into an Anaplan model.
 
- The placeholder with the same name as in the `Server file` field must be predefined in the given Anaplan model.
- 
- Due to the limitation of Anaplan API 2.0, this plugin does not write data in parallel so may take some time on larger datasets.
+Due to the limitation of Anaplan API 2.0, this plugin does not write data in parallel so larger datasets might take longer to load into the Anaplan server.
 
- Properties
- ----------
- **Workspace Id:** The target Anaplan workspace ID.
- 
- **Model Id:** The target Anaplan model ID.
+Properties
+----------
+**Workspace ID:** The target Anaplan Workspace ID.
 
- **Server File Name:** The name of the predefined placeholder file name in the model for this data import.
+**Model ID:** The target Anaplan Model ID.
 
- **Service Location:** The root service location of the Anaplan API.
- 
- **Auth Service Location:** The service location for the authentication.
+**Server File Name:** The name of the placeholder file in the Anaplan model. You must define the placeholder file in the Anaplan model before using the Anaplan sink in a pipeline.
 
- **User Name:** The service account used for the connection.
+**Service Location:** The root service location of the Anaplan API.
 
- **Password:** The password for authentication. It is suggested to use a secure macro to manage the password. 
- Reference: [Provide secure information to pipelines](https://datafusion.atlassian.net/wiki/spaces/KB/pages/32276556/Provide+secure+information+to+pipelines)
+**Auth Service Location:** The service location for the authentication.
+
+**User Name:** The service account used for the connection.
+Recommended: If the service account changes periodically, use a [macro](https://cdap.atlassian.net/wiki/spaces/DOCS/pages/1188036697/Macros+and+macro+functions).
+
+**Password:** The password for authentication. Recommended: Use [secure macros](https://cdap.atlassian.net/wiki/spaces/DOCS/pages/1188036697/Macros+and+macro+functions#Secure-Function) for sensitive values like User passwords.
+
 
 Data Type Mappings from CDAP to Anaplan
 ----------
-The following table lists out different CDAP data types, as well as the 
+The following table lists different CDAP data types and the
 corresponding Anaplan data type for each CDAP type.
 
 | CDAP type      | Anaplan type  |

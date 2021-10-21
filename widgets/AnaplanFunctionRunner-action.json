@@ -44,7 +44,7 @@
         },
         {
           "widget-type": "textbox",
-          "label": "Function Name",
+          "label": "Process/Action Name",
           "name": "functionName",
           "widget-attributes": {
             "width": "large"

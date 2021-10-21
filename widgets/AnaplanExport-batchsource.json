@@ -5,20 +5,7 @@
   "display-name": "Anaplan",
   "configuration-groups": [
     {
-      "label": "Basic",
-      "properties": [
-        {
-          "widget-type": "textbox",
-          "label": "Reference Name",
-          "name": "referenceName",
-          "widget-attributes": {
-            "placeholder": "Name used to identify this source for lineage"
-          }
-        }
-      ]
-    },
-    {
-      "label": "Anaplan Export Configuration",
+      "label": "Anaplan Properties",
       "properties": [
         {
           "widget-type": "textbox",
@@ -43,12 +30,7 @@
           "widget-attributes": {
             "width": "large"
           }
-        }
-      ]
-    },
-    {
-      "label": "Anaplan Connection",
-      "properties": [
+        },
         {
           "widget-type": "textbox",
           "label": "Service Location",
@@ -84,8 +66,16 @@
       ]
     },
     {
-      "label": "GCS Buffer",
+      "label": "GCP Credentials",
       "properties": [
+        {
+          "widget-type": "textbox",
+          "label": "Reference Name",
+          "name": "referenceName",
+          "widget-attributes": {
+            "placeholder": "Name used to identify this source for lineage"
+          }
+        },
         {
           "widget-type": "textbox",
           "label": "Project ID",
@@ -96,7 +86,7 @@
         },
         {
           "widget-type": "textbox",
-          "label": "GCS Bucket as Buffer",
+          "label": "Temporary Bucket Name",
           "name": "bucket",
           "widget-attributes": {
             "width": "large"
@@ -104,7 +94,7 @@
         },
         {
           "widget-type": "textbox",
-          "label": "File archive name in GCS bucket",
+          "label": "Temporary file name in GCS bucket",
           "name": "archiveName",
           "widget-attributes": {
             "width": "large"
@@ -112,18 +102,13 @@
         },
         {
           "widget-type": "select",
-          "label": "Format",
+          "label": "Format of the data to read",
           "name": "format",
           "widget-attributes": {
             "default": "csv",
             "values": ["csv", "tsv"]
           }
-        }
-      ]
-    },
-    {
-      "label": "GCP Credentials",
-      "properties": [
+        },
         {
           "name": "serviceAccountType",
           "label": "Service Account Type",

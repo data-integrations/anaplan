@@ -1,28 +1,28 @@
 # Anaplan function runner
 
- Description
- -----------
- Performs an Action/Process that is predefined in the given Anaplan model.
+Description
+-----------
+Performs an [Action](https://help.anaplan.com/69250a43-3266-4c04-bda9-bfb50ece9623-Actions) or [Process](https://help.anaplan.com/c01dd9ae-2390-4623-87bd-60b208a84f23-Processes) that is predefined in the given Anaplan model.
 
- This is most commonly used to prepare for the data import & export.
+This is most commonly used to prepare for the data import & export.
 
- The Action/Process must be predefined in the given Anaplan model.
+The Action/Process must be predefined in the given Anaplan model.
 
- Properties
- ----------
- **Workspace Id:** The target Anaplan workspace ID.
- 
- **Model Id:** The target Anaplan model ID.
+Properties
+----------
+**Workspace ID** The target Anaplan Workspace ID.
 
- **Function Type:** The type (Action/Process) of the function to be run. 
+**Model ID:** The target Anaplan Model ID.
 
- **Function Name:** The name of the predefined function to be run.
+**Function Type:** The type (Action/Process) of the function to be run.
 
- **Service Location:** The root service location of the Anaplan API.
- 
- **Auth Service Location:** The service location for the authentication.
+**Process/Action Name:** The name of the predefined function to be run.
 
- **User Name:** The service account used for the connection.
+**Service Location:** The root service location of the Anaplan API.
 
- **Password:** The password for authentication. It is suggested to use a secure macro to manage the password. 
- Reference: [Provide secure information to pipelines](https://datafusion.atlassian.net/wiki/spaces/KB/pages/32276556/Provide+secure+information+to+pipelines)
+**Auth Service Location:** The service location for the authentication.
+
+**User Name:** The service account used for the connection.
+Recommended: If the service account changes periodically, use a [macro](https://cdap.atlassian.net/wiki/spaces/DOCS/pages/1188036697/Macros+and+macro+functions).
+
+**Password:** The password for authentication. Recommended: Use [secure macros](https://cdap.atlassian.net/wiki/spaces/DOCS/pages/1188036697/Macros+and+macro+functions#Secure-Function) for sensitive values like User passwords.
