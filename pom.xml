@@ -42,7 +42,7 @@
     <feign-jackson.version>10.0.0</feign-jackson.version>
     <feign.version>10.0.0</feign.version>
     <jcifs.version>1.3.17</jcifs.version>
-    <logback.version>1.2.3</logback.version>
+    <logback.version>1.2.13</logback.version>
     <lombok.version>1.16.18</lombok.version>
     <okhttp.version>3.14.4</okhttp.version>
     <opencsv.version>4.5</opencsv.version>
